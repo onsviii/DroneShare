@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Review {
+public class Review extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,6 +23,8 @@ public class Review {
     @JoinColumn(name = "booking_id", nullable = false)
     private Booking booking;
 
+    @Column(nullable = false)
     private int rating;
+
     private String comment;
 }

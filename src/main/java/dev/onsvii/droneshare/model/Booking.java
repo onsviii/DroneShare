@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Booking {
+public class Booking extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,10 +26,16 @@ public class Booking {
     @JoinColumn(name = "tenant_id", nullable = false)
     private User tenant;
 
+    @Column(nullable = false)
     private LocalDate startDate;
+
+    @Column(nullable = false)
     private LocalDate endDate;
+
+    @Column(nullable = false)
     private BigDecimal totalPrice;
 
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Status status;
 
