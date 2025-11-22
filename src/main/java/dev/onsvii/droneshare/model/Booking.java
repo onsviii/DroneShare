@@ -1,16 +1,17 @@
 package dev.onsvii.droneshare.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Entity
 @Table(name = "bookings")
-@Data
+@Getter
+@Setter
+@ToString(exclude = {"listing", "tenant"})
 @NoArgsConstructor
 @AllArgsConstructor
 public class Booking extends BaseEntity {
@@ -38,6 +39,20 @@ public class Booking extends BaseEntity {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Status status;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Booking)) return false;
+        Booking booking = (Booking) o;
+
+        return id != null && Objects.equals(id, booking.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 
     public enum Status {
         PENDING, APPROVED, REJECTED, COMPLETED

@@ -1,13 +1,15 @@
 package dev.onsvii.droneshare.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import java.util.Objects;
 
 @Entity
 @Table(name = "reviews")
-@Data
+@Getter
+@Setter
+@ToString(exclude = {"author", "booking"})
 @NoArgsConstructor
 @AllArgsConstructor
 public class Review extends BaseEntity{
@@ -27,4 +29,18 @@ public class Review extends BaseEntity{
     private int rating;
 
     private String comment;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Review)) return false;
+        Review review = (Review) o;
+
+        return id != null && Objects.equals(id, review.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

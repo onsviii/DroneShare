@@ -1,16 +1,17 @@
 package dev.onsvii.droneshare.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "listings")
-@Data
+@Getter
+@Setter
+@ToString(exclude = {"owner", "categories"})
 @NoArgsConstructor
 @AllArgsConstructor
 public class Listing extends SoftDeletableEntity {
@@ -37,6 +38,20 @@ public class Listing extends SoftDeletableEntity {
     @Column(nullable = false)
     @ElementCollection(fetch = FetchType.LAZY)
     private List<Category> categories;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Listing)) return false;
+        Listing listing = (Listing) o;
+
+        return id != null && Objects.equals(id, listing.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 
     public enum Category {
         DRONE, GOGGLES, CONTROLLER, OTHER

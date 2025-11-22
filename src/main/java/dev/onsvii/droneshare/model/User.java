@@ -1,13 +1,15 @@
 package dev.onsvii.droneshare.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import java.util.Objects;
 
 @Entity
 @Table(name = "users")
-@Data
+@Getter
+@Setter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class User extends SoftDeletableEntity {
@@ -30,6 +32,20 @@ public class User extends SoftDeletableEntity {
 
     private String phone;
     private double rating;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+
+        return id != null && Objects.equals(id, user.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 
     public enum Role {
         USER, ADMIN
