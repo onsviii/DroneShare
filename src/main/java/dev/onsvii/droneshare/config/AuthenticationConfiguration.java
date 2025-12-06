@@ -8,13 +8,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
 @RequiredArgsConstructor
-public class ApplicationConfiguration {
+public class AuthenticationConfiguration {
     private final UserDetailsService userDetailsService;
     private final JwtService jwtService;
 
@@ -24,17 +24,22 @@ public class ApplicationConfiguration {
     }
 
     @Bean
-    BCryptPasswordEncoder passwordEncoder () {
+    public static GrantedAuthorityDefaults grantedAuthorityDefaults() {
+        return new GrantedAuthorityDefaults("");
+    }
+
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder () {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public AuthenticationManager authenticationManager (AuthenticationConfiguration config) {
+    public AuthenticationManager authenticationManager (org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration config) {
         return config.getAuthenticationManager();
     }
 
     @Bean
-    AuthenticationProvider authenticationProvider () {
+    public AuthenticationProvider authenticationProvider () {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(userDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder());
 
